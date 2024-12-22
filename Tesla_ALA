@@ -1,0 +1,150 @@
+import yfinance as yf
+#PROJECT ALA
+
+# Extract Tesla stock data for a specific period (e.g., 1 year)
+tesla = yf.Ticker('TSLA')
+tesla_data = tesla.history(period="1y")
+
+# Reset the index of the dataframe
+tesla_data_reset = tesla_data.reset_index()
+
+# Save the dataframe (optional)
+tesla_data_reset.to_csv('tesla_stock_data.csv', index=False)
+
+# Display the first five rows of the dataframe
+print(tesla_data_reset.head())
+
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# URL for Tesla's revenue data (adjust this URL to the correct page)
+url = 'https://www.macrotrends.net/stocks/charts/TSLA/tesla/revenue'
+
+# Send GET request to the URL
+response = requests.get(url)
+
+# Parse the HTML page
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Find the revenue table or data
+# You may need to adjust the CSS selectors based on the page's structure
+table = soup.find('table', {'class': 'historical_data_table'})
+
+# Extract the rows of the table
+rows = table.find_all('tr')
+
+# Initialize an empty list to store the data
+revenue_data = []
+
+# Loop through each row and extract the data
+for row in rows[1:]:  # Skip the header row
+    cols = row.find_all('td')
+    if len(cols) > 1:  # Make sure the row contains data
+        year = cols[0].get_text(strip=True)
+        revenue = cols[1].get_text(strip=True).replace('$', '').replace(',', '')  # Clean revenue value
+        revenue_data.append([year, revenue])
+
+# Create a dataframe from the extracted data
+tesla_revenue = pd.DataFrame(revenue_data, columns=['Year', 'Revenue'])
+
+# Convert the revenue to numeric (this is important for proper sorting or analysis)
+tesla_revenue['Revenue'] = pd.to_numeric(tesla_revenue['Revenue'], errors='coerce')
+
+# Display the last five rows of the dataframe
+print(tesla_revenue.tail())
+import yfinance as yf
+
+# Extract GameStop stock data for a specific period (e.g., 1 year)
+gamestop = yf.Ticker('GME')
+gme_data = gamestop.history(period="1y")
+
+# Reset the index of the dataframe
+gme_data_reset = gme_data.reset_index()
+
+# Save the dataframe (optional)
+gme_data_reset.to_csv('gamestop_stock_data.csv', index=False)
+
+# Display the first five rows of the dataframe
+print(gme_data_reset.head())
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# URL for GameStop's revenue data (adjust this URL to the correct page)
+url = 'https://www.macrotrends.net/stocks/charts/GME/gamestop/revenue'
+
+# Send GET request to the URL
+response = requests.get(url)
+
+# Parse the HTML page
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Find the revenue table or data
+# You may need to adjust the CSS selectors based on the page's structure
+table = soup.find('table', {'class': 'historical_data_table'})
+
+# Extract the rows of the table
+rows = table.find_all('tr')
+
+# Initialize an empty list to store the data
+revenue_data = []
+
+# Loop through each row and extract the data
+for row in rows[1:]:  # Skip the header row
+    cols = row.find_all('td')
+    if len(cols) > 1:  # Make sure the row contains data
+        year = cols[0].get_text(strip=True)
+        revenue = cols[1].get_text(strip=True).replace('$', '').replace(',', '')  # Clean revenue value
+        revenue_data.append([year, revenue])
+
+# Create a dataframe from the extracted data
+gme_revenue = pd.DataFrame(revenue_data, columns=['Year', 'Revenue'])
+
+# Convert the revenue to numeric (this is important for proper sorting or analysis)
+gme_revenue['Revenue'] = pd.to_numeric(gme_revenue['Revenue'], errors='coerce')
+
+# Display the last five rows of the dataframe
+print(gme_revenue.tail())
+import yfinance as yf
+import matplotlib.pyplot as plt
+
+# Extract Tesla stock data for a specific period (e.g., 1 year)
+tesla = yf.Ticker('TSLA')
+tesla_data = tesla.history(period="1y")
+
+# Function to plot the stock data
+def make_graph(data):
+    # Plotting the 'Close' price of Tesla stock
+    plt.figure(figsize=(10, 6))
+    plt.plot(data.index, data['Close'], label='Tesla Stock Close Price', color='blue')
+    plt.xlabel('Date')
+    plt.ylabel('Price (USD)')
+    plt.title('Tesla Stock Price (Last 1 Year)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Call the make_graph function with the Tesla stock data
+make_graph(tesla_data)
+import yfinance as yf
+import matplotlib.pyplot as plt
+
+# Extract GameStop stock data for a specific period (e.g., 1 year)
+gamestop = yf.Ticker('GME')
+gme_data = gamestop.history(period="1y")
+
+# Function to plot the stock data
+def make_graph(data):
+    # Plotting the 'Close' price of GameStop stock
+    plt.figure(figsize=(10, 6))
+    plt.plot(data.index, data['Close'], label='GameStop Stock Close Price', color='green')
+    plt.xlabel('Date')
+    plt.ylabel('Price (USD)')
+    plt.title('GameStop Stock Price (Last 1 Year)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Call the make_graph function with the GameStop stock data
+make_graph(gme_data)
