@@ -29,3 +29,107 @@ import seaborn as sns
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler,PolynomialFeatures
 %matplotlib inline
+1.0 Importing the Data
+file_name='https://s3-api.us-geo.objectstorage.softlayer.net/cf-courses-data/CognitiveClass/DA0101EN/coursera/project/kc_house_data_NaN.csv'
+df=pd.read_csv(file_name)
+df.head()
+	data = {
+    'Unnamed: 0': [0, 1, 2, 3, 4],
+    'id': [7129300520, 6414100192, 5631500400, 2487200875, 1954400510],
+    'date': ['20141013T000000', '20141209T000000', '20150225T000000', '20141209T000000', '20150218T000000'],
+    'price': [221900.0, 538000.0, 180000.0, 604000.0, 510000.0],
+    'bedrooms': [3.0, 3.0, 2.0, 4.0, 3.0],
+    'bathrooms': [1.0, 2.25, 1.0, 3.0, 2.0],
+    'sqft_living': [1180, 2570, 770, 1960, 1680],
+    'sqft_lot': [5650, 7242, 10000, 5000, 8080],
+    'floors': [1.0, 2.0, 1.0, 1.0, 1.0],
+    'waterfront': [0, 0, 0, 0, 0],
+    'grade': [7, 7, 6, 7, 8],
+    'sqft_above': [1180, 2170, 770, 1050, 1680],
+    'sqft_basement': [0, 400, 0, 910, 0],
+    'yr_built': [1955, 1951, 1933, 1965, 1987],
+    'yr_renovated': [0, 1991, 0, 0, 0],
+    'zipcode': [98178, 98125, 98028, 98136, 98074],
+    'lat': [47.5112, 47.7210, 47.7379, 47.5208, 47.6168],
+    'long': [-122.257, -122.319, -122.233, -122.393, -122.045],
+    'sqft_living15': [1340, 1690, 2720, 1360, 1800],
+    'sqft_lot15': [5650, 7639, 8062, 5000, 7503]
+}
+
+df = pd.DataFrame(data)
+Question 1
+Display the data types of each column using the attribute dtype, then take a screenshot and submit it, include your code in the image.
+print(df.dtypes)
+Unnamed: 0         int64
+id                 int64
+date              object
+price            float64
+bedrooms         float64
+bathrooms        float64
+sqft_living        int64
+sqft_lot           int64
+floors           float64
+waterfront         int64
+view               int64
+condition          int64
+grade              int64
+sqft_above         int64
+sqft_basement      int64
+yr_built           int64
+yr_renovated       int64
+zipcode            int64
+lat              float64
+long             float64
+sqft_living15      int64
+sqft_lot15         int64
+dtype: object
+We use the method describe to obtain a statistical summary of the dataframe.
+We use the method describe to obtain a statistical summary of the dataframe.
+df.describe()
+data = {
+    'Unnamed: 0': [21613, 4.580302e+09, 2.876566e+09, 1.000102e+06, 2.123049e+09, 3.904930e+09, 7.308900e+09, 9.900000e+09],
+    'id': [21613, 5.400881e+05, 3.671272e+05, 7.500000e+04, 3.219500e+05, 4.500000e+05, 6.450000e+05, 7.700000e+06],
+    'price': [21600.0, 3.372870, 0.926657, 290.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'bedrooms': [21613.0, 2.115736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'bathrooms': [21600.0, 2.115736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'sqft_living': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'sqft_lot': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'floors': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'waterfront': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'view': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'grade': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'sqft_above': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'sqft_basement': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'yr_built': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'yr_renovated': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'zipcode': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'lat': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'long': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'sqft_living15': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'sqft_lot15': [21613.0, 2079.899736, 918.440897, 8.0, 1427.0, 1910.0, 2550.0, 13540.0]
+}2.0 Data Wrangling
+Question 2
+Drop the columns "id" and "Unnamed: 0" from axis 1 using the method drop(), then use the method describe() to obtain a statistical summary of the data. Take a screenshot and submit it, make sure the inplace parameter is set to True
+df.drop(['id', 'Unnamed: 0'], axis=1, inplace=True)
+df.describe()
+data = {
+    'price': [540088.1, 367127.2, 75000.0, 321950.0, 450000.0, 645000.0, 7700000.0],
+    'bedrooms': [3.3729, 0.9267, 1.0, 3.0, 3.0, 4.0, 33.0],
+    'bathrooms': [2.1157, 0.7690, 0.5, 1.75, 2.25, 2.5, 8.0],
+    'sqft_living': [2079.8997, 918.4409, 290.0, 1427.0, 1910.0, 2550.0, 13540.0],
+    'sqft_lot': [15106.97, 41420.51, 520.0, 5040.0, 7618.0, 10688.0, 1651359.0],
+    'floors': [1.4943, 0.5400, 1.0, 1.0, 1.5, 2.0, 3.5],
+    'waterfront': [0.0075, 0.0865, 0.0, 0.0, 0.0, 0.0, 1.0],
+    'view': [0.2343, 0.7663, 0.0, 0.0, 0.0, 0.0, 4.0],
+    'condition': [3.4094, 0.6507, 1.0, 3.0, 3.0, 4.0, 5.0],
+    'grade': [7.6569, 1.1755, 1.0, 7.0, 7.0, 8.0, 13.0],
+    'sqft_above': [1788.391, 828.091, 290.0, 1190.0, 1560.0, 2210.0, 9410.0],
+    'sqft_basement': [291.5090, 442.5750, 0.0, 0.0, 0.0, 560.0, 4820.0],
+    'yr_built': [1971.005, 29.3734, 1900.0, 1951.0, 1975.0, 1997.0, 2015.0],
+    'yr_renovated': [84.4023, 401.6792, 0.0, 0.0, 0.0, 0.0, 2015.0],
+    'zipcode': [98077.94, 53.5050, 98001.0, 98033.0, 98065.0, 98118.0, 98199.0],
+    'lat': [47.5601, 0.1386, 47.1559, 47.4710, 47.5718, 47.6780, 47.7776],
+    'long': [-122.2139, 0.1408, -122.5190, -122.3280, -122.2300, -122.1250, -121.3150],
+    'sqft_living15': [1986.5525, 685.3913, 399.0, 1490.0, 1840.0, 2360.0, 6210.0],
+    'sqft_lot15': [12768.456, 27304.180, 651.0, 5100.0, 7620.0, 10083.0, 871200.0]
+}we can see we have missing values for the columns  bedrooms and  bathrooms 
