@@ -1,0 +1,57 @@
+app.layout = html.Main(
+    children=[
+        # Task 2.1: Title and Task 2.2: Dropdowns (already included)
+        
+        # Task 2.3: Adding output display
+        html.Div(id="output-container", className="mt-6 p-4 bg-gray-100 border border-gray-300 rounded"),
+    ],
+    className="flex flex-col items-center",
+    # Task 2.4: Callback function
+@callback(Output("input-year", "disabled"), Input("input-report", "value"))
+def disable_year(report_value):
+    if report_value == "Recession":
+        return True  # Disable the "Year" drop-down
+    else:
+        return False  # Enable the "Year" drop-down
+        @app.callback(
+    Output("output-container", "children"),
+    [Input("input-report", "value"), Input("input-year", "value")]
+)
+def display_graph(report_type, year):
+    if report_type == "Recession":
+        # Filter data for Recession report
+        fig = go.Figure(data=[go.Bar(x=df_rec["Year"], y=df_rec["Sales"], name="Recession Sales")])
+        fig.update_layout(title="Recession Sales Overview", xaxis_title="Year", yaxis_title="Sales")
+        return dcc.Graph(figure=fig)
+    else:
+        return no_update
+        @app.callback(
+    Output("output-container", "children"),
+    [Input("input-report", "value"), Input("input-year", "value")]
+)
+def display_graph(report_type, year):
+    if report_type == "Yearly":
+        df_year = df[df["Year"] == year]
+        fig = go.Figure(data=[go.Line(x=df_year["Month"], y=df_year["Sales"], name="Yearly Sales")])
+        fig.update_layout(title=f"Sales Overview for {year}", xaxis_title="Month", yaxis_title="Sales")
+        return dcc.Graph(figure=fig)
+    else:
+    plt.figure(figsize=(12, 6))
+    df_new=df.groupby('Year')['Estimated_fire_area'].mean()
+    df_new.plot(x=df_new.index, y=df_new.values)
+    plt.xlabel('Year')
+    plt.ylabel('Average Estimated Fire Area (km²)')
+    plt.title('Estimated Fire Area over Time')
+    plt.show()
+    df[["Year", "Month", "Estimated_fire_area"]][(df["Year"] >= 2010) & (df["Year"] <= 2013)].groupby(["Year", "Month"]).mean().plot(kind="line",  title="Estimated Average Fire Area per Year from 2010-2013", ylabel="Avg Estimated Fire Area (km²)")
+    df_new=df.groupby(['Year','Month'])['Estimated_fire_area'].mean()
+    df_new.plot(x=df_new.index, y=df_new.values)
+    plt.xlabel('Year, Month')
+    plt.ylabel('Average Estimated Fire Area (km²)')
+    plt.title('Estimated Fire Area over Time')
+    plt.show()
+This plot represents that the estimated fire area was on its peak after 2011, April and before 2012. You can verify on google/news, this was the time of maximum wildfire hit in Austrailia
+df['Region'].unique()
+array(['NSW', 'NT', 'QL', 'SA', 'TA', 'VI', 'WA'], dtype=object)
+Click here for a Hint you need to plot reions on x-axis and the 'Mean_estimated_fire_brightness' on y-axis.
+Title it as 'Distribution of Mean Estimated Fire Brightness across Regions'
